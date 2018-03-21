@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Calculadora</string>
+    <string name="aviso">Expressão inválida! Tente de novo.</string>
 </resources>
