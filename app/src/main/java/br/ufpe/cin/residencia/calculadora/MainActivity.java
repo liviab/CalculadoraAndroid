@@ -8,53 +8,106 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button button1 = findViewById(R.id.btn_1);
-        final Button button2 = findViewById(R.id.btn_2);
-        final Button button3 = findViewById(R.id.btn_3);
-        final Button button4 = findViewById(R.id.btn_4);
-        final Button button5 = findViewById(R.id.btn_5);
-        final Button button6 = findViewById(R.id.btn_6);
-        final Button button7 = findViewById(R.id.btn_7);
-        final Button button8 = findViewById(R.id.btn_8);
-        final Button button9 = findViewById(R.id.btn_9);
+		Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn8, btn0;
+		Button btnEqual, btnDiv, btnMult, btnSub, btnSum, btnDot, btnLParen, btnRParen, btnPow, btnErase;
+	
+		/* Referencia os campos dos numeros */
+        btn1 = findViewById(R.id.btn_1);
+        btn2 = findViewById(R.id.btn_2);
+        btn3 = findViewById(R.id.btn_3);
+        btn4 = findViewById(R.id.btn_4);
+        btn5 = findViewById(R.id.btn_5);
+        btn6 = findViewById(R.id.btn_6);
+        btn7 = findViewById(R.id.btn_7);
+        btn8 = findViewById(R.id.btn_8);
+        btn9 = findViewById(R.id.btn_9);
+		btn0 = findViewById(R.id.btn_0);
 
-        button1.setOnClickListener(onClickListener);
-        button2.setOnClickListener(onClickListener);
-        button3.setOnClickListener(onClickListener);
-        button4.setOnClickListener(onClickListener);
-        button5.setOnClickListener(onClickListener);
-        button6.setOnClickListener(onClickListener);
-        button7.setOnClickListener(onClickListener);
-        button8.setOnClickListener(onClickListener);
+		/* Referencia os campos dos operadores */
+		btnEqual = findViewById(R.id.btn_Equal);
+		btnDiv = findViewById(R.id.btn_Divide);
+		btnMult = findViewById(R.id.btn_Multiply);
+		btnSub = findViewById(R.id.btn_Subtract);
+		btnSum = findViewById(R.id.btn_Add);
+		btnDot = findViewById(R.id.btn_Dot);
+		btnLParen = findViewById(R.id.btn_LParen);
+		btnRParen = findViewById(R.id.btn_RParen);
+		btnPow = findViewById(R.id.btn_Power);
+		btnErase = findViewById(R.id.btn_Clear);
+		
+		/* Define os eventos de click */
+        button1.setOnClickListener(this); button2.setOnClickListener(this);
+        button3.setOnClickListener(this); button4.setOnClickListener(this);
+        button5.setOnClickListener(this); button6.setOnClickListener(this);
+        button7.setOnClickListener(this); button8.setOnClickListener(this);
+		button9.setOnClickListener(this); button0.setOnClickListener(this);
+		
+		btnEqual.setOnClickListener(this);
+		btnDiv.setOnClickListener(this);
+		btnMult.setOnClickListener(this);
+		btnSub.setOnClickListener(this);
+		btnSum.setOnClickListener(this);
+		btnDot.setOnClickListener(this);
+		btnLParen.setOnClickListener(this);
+		btnRParen.setOnClickListener(this);
+		btnPow.setOnClickListener(this);
+		btnErase.setOnClickListener(this);
+		
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
+	@Override
+    public void onClick(View v) {
+      
+		switch(v.getId()){
 
-        @Override
-        public void onClick(final View v) {
+			// Se for o click do botao Igual, calcula a expressao
+			case R.id.btnEqual:
+				
+				try{
+					TextView infoText = findViewById(R.id.text_info);
+					EditText calcText = findViewById(R.id.text_calc);
+					
+					String toEval = String.valueOf(eval(calcText.getText().toString()));
+					infoText.setText(toEval);
+					calcText.setText("");
+	
+				}catch(Exception e){
+					// Clica no botao para limpar tudo
+					Button btn = findViewById(R.id.btn_Clear);
+					btn.performClick();
+					// Mostra mensagem de expressao errada
+					Toast.makeText(getApplicationContext(), “Expressão errada! Tente de novo.”, Toast.LENGTH_SHORT).show();
+				}
+				break;
+			// Se for o click do botao Apagar, apaga os campos
+			case R.id.Erase:
+					TextView infoText = findViewById(R.id.text_info);
+					EditText calcText = findViewById(R.id.text_calc);
+					
+					infoText.setText("");
+					calcText.setText("");
+				break;
+			// Se for o click de qualquer botao operador ou numero, adiciona a expressao
+			default:
+					EditText calcText = findViewById(R.id.text_calc);
+					Button buttonText = findViewById(v.getId());
 
-            switch(v.getId()){
+					calcText.setText(calcText.getText().toString() + buttonText.getText().toString());
 
-                case R.id.btn_Add:
-                    break;
-                default:
-                    TextView calcText = findViewById(R.id.text_calc);
-                    Button buttonText = findViewById(v.getId());
-
-                    calcText.setText(calcText.getText().toString() + buttonText.getText().toString());
-
-                    break;
-            }
-        }
-    };
-
+				break;
+		}
+			
+    }
+	
+	
     //Como usar a função:
     // eval("2+2") == 4.0
     // eval("2+3*4") = 14.0
