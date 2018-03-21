@@ -16,9 +16,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-		Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn8, btn0;
+		Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
 		Button btnEqual, btnDiv, btnMult, btnSub, btnSum, btnDot, btnLParen, btnRParen, btnPow, btnErase;
-	
+
 		/* Referencia os campos dos numeros */
         btn1 = findViewById(R.id.btn_1);
         btn2 = findViewById(R.id.btn_2);
@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		btnRParen = findViewById(R.id.btn_RParen);
 		btnPow = findViewById(R.id.btn_Power);
 		btnErase = findViewById(R.id.btn_Clear);
-		
+
 		/* Define os eventos de click */
-        button1.setOnClickListener(this); button2.setOnClickListener(this);
-        button3.setOnClickListener(this); button4.setOnClickListener(this);
-        button5.setOnClickListener(this); button6.setOnClickListener(this);
-        button7.setOnClickListener(this); button8.setOnClickListener(this);
-		button9.setOnClickListener(this); button0.setOnClickListener(this);
-		
+        btn1.setOnClickListener(this); btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this); btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this); btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this); btn8.setOnClickListener(this);
+        btn9.setOnClickListener(this); btn0.setOnClickListener(this);
+
 		btnEqual.setOnClickListener(this);
 		btnDiv.setOnClickListener(this);
 		btnMult.setOnClickListener(this);
@@ -60,44 +60,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 		btnRParen.setOnClickListener(this);
 		btnPow.setOnClickListener(this);
 		btnErase.setOnClickListener(this);
-		
+
     }
 
 	@Override
     public void onClick(View v) {
-      
-		switch(v.getId()){
+
+        TextView infoText = findViewById(R.id.text_info);
+        EditText calcText = findViewById(R.id.text_calc);
+
+        switch(v.getId()){
 
 			// Se for o click do botao Igual, calcula a expressao
-			case R.id.btnEqual:
-				
+			case R.id.btn_Equal:
+
 				try{
-					TextView infoText = findViewById(R.id.text_info);
-					EditText calcText = findViewById(R.id.text_calc);
-					
+
 					String toEval = String.valueOf(eval(calcText.getText().toString()));
 					infoText.setText(toEval);
 					calcText.setText("");
-	
+
 				}catch(Exception e){
 					// Clica no botao para limpar tudo
 					Button btn = findViewById(R.id.btn_Clear);
 					btn.performClick();
 					// Mostra mensagem de expressao errada
-					Toast.makeText(getApplicationContext(), “Expressão errada! Tente de novo.”, Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), R.string.aviso, Toast.LENGTH_SHORT).show();
 				}
 				break;
 			// Se for o click do botao Apagar, apaga os campos
-			case R.id.Erase:
-					TextView infoText = findViewById(R.id.text_info);
-					EditText calcText = findViewById(R.id.text_calc);
-					
+			case R.id.btn_Clear:
+
 					infoText.setText("");
 					calcText.setText("");
 				break;
 			// Se for o click de qualquer botao operador ou numero, adiciona a expressao
 			default:
-					EditText calcText = findViewById(R.id.text_calc);
 					Button buttonText = findViewById(v.getId());
 
 					calcText.setText(calcText.getText().toString() + buttonText.getText().toString());
